@@ -9,33 +9,7 @@ module Resgistro_a_desde_RTC(
     );
 
 reg [7:0] tIn_Port,tano,tmes,tdia,thoras,tminutos,tsegundos,tht,tmt,tst;
-reg tListo_ht,Listo_esc;
-
-CONSTANT parsel, 01
-
-CONSTANT an, 02
-CONSTANT me, 03
-CONSTANT di, 04
-CONSTANT h, 05
-CONSTANT m, 06
-CONSTANT s, 07
-CONSTANT hti, 08
-CONSTANT mti, 09
-CONSTANT sti, 0A
-
-CONSTANT escriba, 0B
-CONSTANT listoes, 0C
-
-CONSTANT anole, 0D
-CONSTANT mesle, 0E
-CONSTANT diale, 0F
-CONSTANT horale, 10
-CONSTANT minutole, 11
-CONSTANT segundole, 12
-CONSTANT htile, 13
-CONSTANT mtile, 14
-CONSTANT stile, 15
-
+reg tListo_ht,tListo_esc;
 
 always@(posedge clk)begin
 		if(reset)begin
@@ -45,10 +19,11 @@ always@(posedge clk)begin
 			end
 		else begin
 			In_Port=tIn_Port;ano=tano;mes=tmes;dia=tdia;horas=thoras;minutos=tminutos;segundos=tsegundos;
-			ht=tht;mt=tmt;st=tst;Listo_ht=tListo_ht;
+			ht=tht;mt=tmt;st=tst;Listo_ht=tListo_ht;Listo_esc=tListo_esc;
 			if(Port_ID==8'h1 && write)begin 
 					if(Out_Port==8'h9)begin tListo_ht=1;end
 					else begin tListo_ht=0;end end
+			//Registro cuando se reciben datos del picoblaze
 			if(Port_ID==8'h2 && write)begin tano=Out_Port; end
 			if(Port_ID==8'h3 && write)begin tmes=Out_Port; end
 			if(Port_ID==8'h4 && write)begin tdia=Out_Port; end
@@ -58,16 +33,19 @@ always@(posedge clk)begin
 			if(Port_ID==8'h8 && write)begin tht=Out_Port; end
 			if(Port_ID==8'h9 && write)begin tmt=Out_Port; end
 			if(Port_ID==8'ha && write)begin tst=Out_Port; end
-			//Registro cuando se leen los datos
+			//Registro cuando se leen los datos, enviar al picoblaze
 			if(Port_ID==8'hc)begin tIn_Port=Listo_es; end
-			if(Port_ID==8'hd)begin tIn_Port=Out_Port; end
-			if(Port_ID==8'he)begin tIn_Port=Out_Port; end
-			if(Port_ID==8'hf)begin tIn_Port=Out_Port; end
-			if(Port_ID==8'h10)begin tIn_Port=Out_Port; end
-			if(Port_ID==8'h11)begin tIn_Port=Out_Port; end
-			if(Port_ID==8'h12)begin tIn_Port=Out_Port; end
-			if(Port_ID==8'h13)begin tIn_Port=Out_Port; end
-			if(Port_ID==8'h14)begin tIn_Port=Out_Port; end
-			if(Port_ID==8'd15)begin tIn_Port=Out_Port; end			
+			if(Port_ID==8'hd)begin tIn_Port=anole; end
+			if(Port_ID==8'he)begin tIn_Port=mesle; end
+			if(Port_ID==8'hf)begin tIn_Port=diale; end
+			if(Port_ID==8'h10)begin tIn_Port=horasle; end
+			if(Port_ID==8'h11)begin tIn_Port=minutosle; end
+			if(Port_ID==8'h12)begin tIn_Port=segundosle; end
+			if(Port_ID==8'h13)begin tIn_Port=htle; end
+			if(Port_ID==8'h14)begin tIn_Port=mtle; end
+			if(Port_ID==8'h15)begin tIn_Port=stle; end
+			tListo_esc=Listo_es;
+				end
+		end
 
 endmodule
