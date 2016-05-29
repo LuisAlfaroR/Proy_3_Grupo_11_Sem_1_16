@@ -10,9 +10,9 @@ module Proyecto_final(
 
 wire [9:0] address;
 wire [17:0] instruction;
-wire [7:0] port_id , in_port , out_port ;
+wire [7:0] port_id , in_port , out_port,in_port_tec,in_port_rtc;
 wire write_strobe ;
-reg [7:0] in;
+
 
 Registro_Teclado Teclado (
     .clk(clk), 
@@ -22,8 +22,15 @@ Registro_Teclado Teclado (
     .siguiente(siguiente), 
     .anterior(anterior), 
     .Port_ID(port_id), 
-    .In_Port(in_port)
+    .In_Port(in_port_tec)
     );	
+
+MUX_In_Port MUX_del_In_Port (
+    .Port_ID(port_id), 
+    .In_Port_tec(in_port_tec), 
+    .In_Port_RTC(in_port_rtc), 
+    .In_Port_sal(in_port)
+    );
 
 kcpsm3 PicoBlaze (
     .address(address), 
@@ -33,7 +40,7 @@ kcpsm3 PicoBlaze (
     .out_port(out_port), 
     .read_strobe(read_strobe), 
     .in_port(in_port), 
-    .interrupt(interrupt), 
+    .interrupt(0), 
     .interrupt_ack(interrupt_ack), 
     .reset(reset), 
     .clk(clk)
@@ -52,25 +59,25 @@ Resgistro_a_desde_RTC Registro_a_desde_RTC (
     .Listo_es(Listo_es), 
     .Out_Port(out_port), 
     .Port_ID(port_id), 
-    .In_Port(In_Port), 
+    .In_Port(in_port_rtc), 
     .ano(ano), 
     .mes(mes), 
     .dia(dia), 
-    .horas(horas), 
-    .minutos(minutos), 
-    .segundos(segundos), 
+    .horas(hora), 
+    .minutos(min), 
+    .segundos(seg), 
     .ht(ht), 
     .mt(mt), 
     .st(st), 
-    .anole(8'h2), 
-    .mesle(8'h2), 
-    .diale(8'h2), 
-    .horasle(8'h2), 
-    .minutosle(8'h2), 
-    .segundosle(8'h2), 
-    .htle(8'h2), 
-    .mtle(8'h2), 
-    .stle(8'h2), 
+    .anole(0), 
+    .mesle(0), 
+    .diale(0), 
+    .horasle(0), 
+    .minutosle(0), 
+    .segundosle(0), 
+    .htle(0), 
+    .mtle(0), 
+    .stle(0), 
     .Listo_ht(Listo_ht), 
     .Listo_esc(Listo_esc)
     );	 

@@ -20,8 +20,8 @@ always@(posedge clk)begin
 		else begin
 			In_Port=tIn_Port;ano=tano;mes=tmes;dia=tdia;horas=thoras;minutos=tminutos;segundos=tsegundos;
 			ht=tht;mt=tmt;st=tst;Listo_ht=tListo_ht;Listo_esc=tListo_esc;
-			if(Port_ID==8'h1 && write)begin 
-					if(Out_Port==8'h9)begin tListo_ht=1;end
+			if(Port_ID==8'hb && write)begin 
+					if(Out_Port==8'h1)begin tListo_ht=1;end
 					else begin tListo_ht=0;end end
 			//Registro cuando se reciben datos del picoblaze
 			if(Port_ID==8'h2 && write)begin tano=Out_Port; end
