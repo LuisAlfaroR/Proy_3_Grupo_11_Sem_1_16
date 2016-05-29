@@ -3,6 +3,12 @@
 module Proyecto_final(
     );
 
+wire [9:0] address;
+wire [17:0] instruction;
+wire [7:0] port_id , in_port , out_port ;
+wire write_strobe ;
+reg [7:0] in;
+
 kcpsm3 PicoBlaze (
     .address(address), 
     .instruction(instruction), 
