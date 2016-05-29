@@ -1,0 +1,11 @@
+
+CONSTANT entrada1, 00
+CONSTANT entrada2, 01
+CONSTANT salida, 02
+
+suma:
+	INPUT s0, entrada1
+	INPUT s1, entrada2
+	ADD s0, s1
+	OUTPUT s0, salida
+	JUMP suma
