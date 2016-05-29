@@ -1,0 +1,9 @@
+; Simple loop that puts contents of input register
+; into the output register
+; 
+; switches DSIN $00
+; LEDS DSOUT $80
+
+start:              INPUT        s0, 00               ; read switches into register s0
+                    OUTPUT       s0, 80             ; write contents of s0 to output port 80 - leds.
+                    JUMP      start               ; loop back to start
