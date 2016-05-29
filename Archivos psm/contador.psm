@@ -1,0 +1,272 @@
+;_________________________________________________________________________________
+;	Acción		In_port			Port_ID		Interrupción
+;_________________________________________________________________________________
+;
+;	rst		01			00		1
+;	formato		03			02		0
+;	aumenta		04			03		0
+;	disminuye	05			04		0
+;	sig		06			05		0
+;	ant		07			06		0
+;	quita		08			07		1
+;	camb		09			08		1
+;_________________________________________________________________________________
+
+
+CONSTANT aumenta, 03
+CONSTANT disminuye, 04
+CONSTANT sig, 05
+CONSTANT ant, 06
+CONSTANT parsel, 01
+CONSTANT an, 02
+CONSTANT me, 03
+CONSTANT di, 04
+CONSTANT h, 05
+CONSTANT m, 06
+CONSTANT s, 07
+CONSTANT hti, 08
+CONSTANT mti, 09
+CONSTANT sti, 0A
+
+;Varibles internas
+
+NAMEREG s0, parametro
+NAMEREG s1, ano
+NAMEREG s2, mes
+NAMEREG s3, dia
+NAMEREG s4, hora
+NAMEREG s5, min
+NAMEREG s6, seg
+NAMEREG s7, ht
+NAMEREG s8, mt
+NAMEREG s9, st
+
+;
+
+	LOAD parametro, 00
+
+principal:
+	CALL parametros
+	OUTPUT parametro, parsel
+	JUMP principal
+
+parametros:
+	CALL escoge
+	COMPARE parametro, 09
+	RETURN Z
+	CALL cambia
+	COMPARE parametro, 09
+	OUTPUT parametro, parsel
+	OUTPUT ano, an
+	OUTPUT mes, me
+	OUTPUT dia, di
+	OUTPUT hora, h
+	OUTPUT min, m
+	OUTPUT seg, s
+	OUTPUT ht, hti
+	OUTPUT mt, mti
+	OUTPUT st, sti
+	RETURN Z
+	JUMP parametros 
+	
+			escoge:
+				INPUT sf, sig
+				COMPARE sf, 06
+				CALL Z, sigpar
+				INPUT sf, ant
+				COMPARE sf, 07
+				CALL z, antpar
+				RETURN
+	
+
+						sigpar:
+							COMPARE parametro, 09
+							RETURN Z
+							ADD parametro, 01
+							CALL sueltasig
+							RETURN
+										sueltasig:
+											INPUT sf, sig
+											COMPARE sf, 06
+											RETURN NZ
+											JUMP sueltasig
+
+
+						antpar:
+							COMPARE parametro, 00
+							RETURN Z
+							SUB parametro, 01
+							CALL sueltant 
+							RETURN
+	
+										sueltant:
+											INPUT sf, ant
+											COMPARE sf, 07
+											RETURN NZ
+											JUMP sueltant
+			cambia:
+				INPUT sf, aumenta
+				COMPARE sf, 04
+				CALL Z, sube
+				INPUT sf, disminuye
+				COMPARE sf, 05
+				CALL z, baja
+				RETURN
+						sube:
+							COMPARE parametro, 00
+							CALL Z, anoa
+							COMPARE parametro, 01
+							CALL Z, mesa
+							COMPARE parametro, 02
+							CALL Z, diaa
+							COMPARE parametro, 03
+							CALL Z, horaa
+							COMPARE parametro, 04
+							CALL Z, mina
+							COMPARE parametro, 05
+							CALL Z, sega
+							COMPARE parametro, 06
+							CALL Z, hta
+							COMPARE parametro, 07
+							CALL Z, mta
+							COMPARE parametro, 08
+							CALL Z, sta
+							RETURN
+										anoa:
+											COMPARE ano, 63 ;99
+											RETURN Z
+											ADD ano, 01
+											CALL sueltaumen
+											RETURN
+													sueltaumen:
+															INPUT sf, aumenta
+															COMPARE sf, 03
+															RETURN NZ
+															JUMP sueltaumen
+										mesa:
+											COMPARE mes, 0C ;12
+											RETURN Z
+											ADD mes, 01
+											CALL sueltaumen
+											RETURN
+										diaa:
+											COMPARE dia, 1F ;31
+											RETURN Z
+											ADD dia, 01
+											CALL sueltaumen
+											RETURN
+										horaa:
+											COMPARE hora, 0C ;12
+											RETURN Z
+											ADD hora, 01
+											CALL sueltaumen
+											RETURN
+										mina:
+											COMPARE min, 3B ;59
+											RETURN Z
+											ADD min, 01
+											CALL sueltaumen
+											RETURN
+										sega:
+											COMPARE seg, 3B ;59
+											RETURN Z
+											ADD seg, 01
+											CALL sueltaumen
+											RETURN
+										hta:
+											COMPARE ht, 17 ;23
+											RETURN Z
+											ADD ht, 01
+											CALL sueltaumen
+											RETURN
+										mta:
+											COMPARE mt, 3B ;59
+											RETURN Z
+											ADD mt, 01
+											CALL sueltaumen
+											RETURN
+										sta:
+											COMPARE st, 3B ;59
+											RETURN Z
+											ADD st, 01
+											CALL sueltaumen
+											RETURN
+						baja:
+							COMPARE parametro, 00
+							CALL Z, anob
+							COMPARE parametro, 01
+							CALL Z, mesb
+							COMPARE parametro, 02
+							CALL Z, diab
+							COMPARE parametro, 03
+							CALL Z, horab
+							COMPARE parametro, 04
+							CALL Z, minb
+							COMPARE parametro, 05
+							CALL Z, segb
+							COMPARE parametro, 06
+							CALL Z, htb
+							COMPARE parametro, 07
+							CALL Z, mtb
+							COMPARE parametro, 08
+							CALL Z, stb
+							RETURN
+										anob:
+											COMPARE ano, 00
+											RETURN Z
+											SUB ano, 01
+											CALL sueltdis
+											RETURN
+													sueltdis:
+															INPUT sf, disminuye
+															COMPARE sf, 04
+															RETURN NZ
+															JUMP sueltdis
+										mesb:
+											COMPARE mes, 01
+											RETURN Z
+											SUB mes, 01
+											CALL sueltdis
+											RETURN
+										diab:
+											COMPARE dia, 01
+											RETURN Z
+											SUB dia, 01
+											CALL sueltdis
+											RETURN
+										horab:
+											COMPARE mes, 01
+											RETURN Z
+											SUB mes, 01
+											CALL sueltdis
+											RETURN
+										minb:
+											COMPARE min, 00
+											RETURN Z
+											SUB min, 01
+											CALL sueltdis
+											RETURN
+										segb:
+											COMPARE seg, 00
+											RETURN Z
+											SUB seg, 01
+											CALL sueltdis
+											RETURN
+										htb:
+											COMPARE ht, 00
+											RETURN Z
+											SUB ht, 01
+											CALL sueltdis
+											RETURN
+										mtb:
+											COMPARE mt, 00
+											RETURN Z
+											SUB mt, 01
+											CALL sueltdis
+											RETURN
+										stb:
+											COMPARE st, 00
+											RETURN Z
+											SUB st, 01
+											CALL sueltdis
+											RETURN
