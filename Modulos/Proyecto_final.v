@@ -1,6 +1,10 @@
 `timescale 1ns / 1ps
 
 module Proyecto_final(
+    input clk,
+    input reset,
+    input aumenta,disminuye,siguiente,anterior,
+    output [7:0] ano,mes,dia,hora,min,seg,ht,mt,st
     );
 
 wire [9:0] address;
