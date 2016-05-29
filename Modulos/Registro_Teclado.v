@@ -5,11 +5,13 @@ module Registro_Teclado(
     input reset,
     input aumenta,disminuye,siguiente,anterior,
 	 input [7:0] Port_ID,
-	 output reg [7:0] In_port
+	 output reg [7:0] In_Port
     );
 
-always@*begin
-	In_port=0;
+always@(posedge clk)begin
+	if(reset)begin In_Port=0; end
+	else begin
+	In_Port=0;
 	case(Port_ID)
 		8'h03 : begin
 					 if(aumenta)begin In_Port=8'h4;end
@@ -28,5 +30,6 @@ always@*begin
 					 else begin In_Port=8'd0; end
 				  end
 	endcase
+	end
 end
 endmodule

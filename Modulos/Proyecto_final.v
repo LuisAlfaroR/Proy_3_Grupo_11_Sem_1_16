@@ -13,6 +13,17 @@ wire [7:0] port_id , in_port , out_port ;
 wire write_strobe ;
 reg [7:0] in;
 
+Registro_Teclado Teclado (
+    .clk(clk), 
+    .reset(reset), 
+    .aumenta(aumenta), 
+    .disminuye(disminuye), 
+    .siguiente(siguiente), 
+    .anterior(anterior), 
+    .Port_ID(port_id), 
+    .In_Port(in_port)
+    );
+
 kcpsm3 PicoBlaze (
     .address(address), 
     .instruction(instruction), 
