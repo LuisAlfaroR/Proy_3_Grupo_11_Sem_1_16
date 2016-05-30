@@ -72,7 +72,7 @@ module TestBench_Registro_a_desde_RTC;
 		reset = 1;
 		write = 0;
 		Listo_es = 0;
-		Out_Port = 8'h99;
+		Out_Port = 8'h1;
 		Port_ID = 0;
 		anole = 8'h13;
 		mesle = 8'h2;
@@ -89,7 +89,7 @@ module TestBench_Registro_a_desde_RTC;
 		reset=0;
 		
 		write=1;
-		Port_ID=8'h01;
+		Port_ID=8'hb;
 		#100;
 		Port_ID=8'h02;
 		#100;

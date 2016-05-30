@@ -4,18 +4,20 @@ module Resgistro_a_desde_RTC(
 	input clk, reset, write, Listo_es,
 	input [7:0] Out_Port, Port_ID,
 	output reg [7:0] In_Port,ano,mes,dia,horas,minutos,segundos,ht,mt,st,
+	output reg [8:0] Habilita,
 	input [7:0] anole,mesle,diale,horasle,minutosle,segundosle,htle,mtle,stle,
 	output reg Listo_ht, Listo_esc
     );
 
-reg [7:0] tIn_Port,tano,tmes,tdia,thoras,tminutos,tsegundos,tht,tmt,tst;
+reg [7:0] tIn_Port,tano,tmes,tdia,thoras,tminutos,tsegundos,tht,tmt,tst,thabilita;
 reg tListo_ht,tListo_esc;
 
 always@(posedge clk)begin
 		if(reset)begin
 			In_Port=0;ano=0;mes=0;dia=0;horas=0;minutos=0;segundos=0;ht=0;mt=0;st=0;Listo_ht=0;Listo_esc=0;
+			Habilita=0;
 			tIn_Port=0;tano=0;tmes=0;tdia=0;thoras=0;tminutos=0;tsegundos=0;tht=0;tmt=0;tst=0;tListo_ht=0;
-			tListo_esc=0;
+			tListo_esc=0;thabilita=0;
 			end
 		else begin
 			In_Port=tIn_Port;ano=tano;mes=tmes;dia=tdia;horas=thoras;minutos=tminutos;segundos=tsegundos;
@@ -24,6 +26,7 @@ always@(posedge clk)begin
 					if(Out_Port==8'h1)begin tListo_ht=1;end
 					else begin tListo_ht=0;end end
 			//Registro cuando se reciben datos del picoblaze
+			if(Port_ID==8'h1 && write)begin thabilita=Out_Port; end
 			if(Port_ID==8'h2 && write)begin tano=Out_Port; end
 			if(Port_ID==8'h3 && write)begin tmes=Out_Port; end
 			if(Port_ID==8'h4 && write)begin tdia=Out_Port; end
@@ -45,7 +48,19 @@ always@(posedge clk)begin
 			if(Port_ID==8'h14)begin tIn_Port=mtle; end
 			if(Port_ID==8'h15)begin tIn_Port=stle; end
 			tListo_esc=Listo_es;
-				end
-		end
+			case(thabilita)
+			6'h0:begin Habilita=9'b000000001;end
+			6'h1:begin Habilita=9'b000000010;end
+			6'h2:begin Habilita=9'b000000100;end
+			6'h3:begin Habilita=9'b000001000;end
+			6'h4:begin Habilita=9'b000010000;end
+			6'h5:begin Habilita=9'b000100000;end
+			6'h6:begin Habilita=9'b001000000;end
+			6'h7:begin Habilita=9'b010000000;end
+			6'h8:begin Habilita=9'b100000000;end
+			6'h9:begin Habilita=9'b000000000;end
+			endcase
+			end
+end
 
 endmodule

@@ -4,14 +4,16 @@ module Proyecto_final(
     input clk,
     input reset,
     input aumenta,disminuye,siguiente,anterior,Listo_es,
+	 input [7:0] anole,mesle,diale,horale,minle,segle,htle,mtle,stle,
     output [7:0] ano,mes,dia,hora,min,seg,ht,mt,st,
-	 output Listo_ht
+	 output Listo_ht,
+	 output [8:0] Habilita
     );
 
-wire [9:0] address;
+wire [11:0] address;
 wire [17:0] instruction;
 wire [7:0] port_id , in_port , out_port,in_port_tec,in_port_rtc;
-wire write_strobe ;
+wire write_strobe,bram_enable ;
 
 
 Registro_Teclado Teclado (
@@ -32,7 +34,7 @@ MUX_In_Port MUX_del_In_Port (
     .In_Port_sal(in_port)
     );
 
-kcpsm3 PicoBlaze (
+/*kcpsm3 PicoBlaze (
     .address(address), 
     .instruction(instruction), 
     .port_id(port_id), 
@@ -44,13 +46,38 @@ kcpsm3 PicoBlaze (
     .interrupt_ack(interrupt_ack), 
     .reset(reset), 
     .clk(clk)
-    );
+    );*/
 	 
-prueba ROM (
+kcpsm6 Picoblaze (
+    .address(address), 
+    .instruction(instruction), 
+    .bram_enable(bram_enable), 
+    .in_port(in_port), 
+    .out_port(out_port), 
+    .port_id(port_id), 
+    .write_strobe(write_strobe), 
+    .k_write_strobe(k_write_strobe), 
+    .read_strobe(read_strobe), 
+    .interrupt(1'b0), 
+    .interrupt_ack(interrupt_ack), 
+    .sleep(1'b0), 
+    .reset(reset), 
+    .clk(clk)
+    );
+	
+programa ROM (
+    .address(address), 
+    .instruction(instruction), 
+    .enable(bram_enable), 
+    .rdl(rdl), 
+    .clk(clk)
+    );
+	
+/*prueba ROM (
     .address(address), 
     .instruction(instruction), 
     .clk(clk)
-    );
+    );*/
 
 Resgistro_a_desde_RTC Registro_a_desde_RTC (
     .clk(clk), 
@@ -69,17 +96,18 @@ Resgistro_a_desde_RTC Registro_a_desde_RTC (
     .ht(ht), 
     .mt(mt), 
     .st(st), 
-    .anole(0), 
-    .mesle(0), 
-    .diale(0), 
-    .horasle(0), 
-    .minutosle(0), 
-    .segundosle(0), 
-    .htle(0), 
-    .mtle(0), 
-    .stle(0), 
+    .anole(anole), 
+    .mesle(mesle), 
+    .diale(diale), 
+    .horasle(horale), 
+    .minutosle(minle), 
+    .segundosle(segle), 
+    .htle(htle), 
+    .mtle(mtle), 
+    .stle(stle), 
     .Listo_ht(Listo_ht), 
-    .Listo_esc(Listo_esc)
+    .Listo_esc(Listo_esc),
+	 .Habilita(Habilita)
     );	 
 
 endmodule

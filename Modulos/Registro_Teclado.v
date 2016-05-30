@@ -11,7 +11,7 @@ module Registro_Teclado(
 always@(posedge clk)begin
 	if(reset)begin In_Port=0; end
 	else begin
-	In_Port=0;
+	In_Port=8'hff;
 	case(Port_ID)
 		8'h03 : begin
 					 if(aumenta)begin In_Port=8'h4;end
