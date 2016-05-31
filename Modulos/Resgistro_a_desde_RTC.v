@@ -9,18 +9,18 @@ module Resgistro_a_desde_RTC(
 	output reg Listo_ht, Listo_esc
     );
 
-reg [7:0] tIn_Port,tano,tmes,tdia,thoras,tminutos,tsegundos,tht,tmt,tst,thabilita;
+reg [7:0] tano,tmes,tdia,thoras,tminutos,tsegundos,tht,tmt,tst,thabilita;
 reg tListo_ht,tListo_esc;
 
-always@(posedge clk)begin
+always@*begin
 		if(reset)begin
 			In_Port=0;ano=0;mes=0;dia=0;horas=0;minutos=0;segundos=0;ht=0;mt=0;st=0;Listo_ht=0;Listo_esc=0;
 			Habilita=0;
-			tIn_Port=0;tano=0;tmes=0;tdia=0;thoras=0;tminutos=0;tsegundos=0;tht=0;tmt=0;tst=0;tListo_ht=0;
+			tano=0;tmes=0;tdia=0;thoras=0;tminutos=0;tsegundos=0;tht=0;tmt=0;tst=0;tListo_ht=0;
 			tListo_esc=0;thabilita=0;
 			end
 		else begin
-			In_Port=tIn_Port;ano=tano;mes=tmes;dia=tdia;horas=thoras;minutos=tminutos;segundos=tsegundos;
+			In_Port=0;ano=tano;mes=tmes;dia=tdia;horas=thoras;minutos=tminutos;segundos=tsegundos;
 			ht=tht;mt=tmt;st=tst;Listo_ht=tListo_ht;Listo_esc=tListo_esc;
 			if(Port_ID==8'hb && write)begin 
 					if(Out_Port==8'h1)begin tListo_ht=1;end
@@ -37,16 +37,16 @@ always@(posedge clk)begin
 			if(Port_ID==8'h9 && write)begin tmt=Out_Port; end
 			if(Port_ID==8'ha && write)begin tst=Out_Port; end
 			//Registro cuando se leen los datos, enviar al picoblaze
-			if(Port_ID==8'hc)begin tIn_Port=Listo_es; end
-			if(Port_ID==8'hd)begin tIn_Port=anole; end
-			if(Port_ID==8'he)begin tIn_Port=mesle; end
-			if(Port_ID==8'hf)begin tIn_Port=diale; end
-			if(Port_ID==8'h10)begin tIn_Port=horasle; end
-			if(Port_ID==8'h11)begin tIn_Port=minutosle; end
-			if(Port_ID==8'h12)begin tIn_Port=segundosle; end
-			if(Port_ID==8'h13)begin tIn_Port=htle; end
-			if(Port_ID==8'h14)begin tIn_Port=mtle; end
-			if(Port_ID==8'h15)begin tIn_Port=stle; end
+			if(Port_ID==8'hc)begin In_Port=Listo_es; end
+			if(Port_ID==8'hd)begin In_Port=anole; end
+			if(Port_ID==8'he)begin In_Port=mesle; end
+			if(Port_ID==8'hf)begin In_Port=diale; end
+			if(Port_ID==8'h10)begin In_Port=horasle; end
+			if(Port_ID==8'h11)begin In_Port=minutosle; end
+			if(Port_ID==8'h12)begin In_Port=segundosle; end
+			if(Port_ID==8'h13)begin In_Port=htle; end
+			if(Port_ID==8'h14)begin In_Port=mtle; end
+			if(Port_ID==8'h15)begin In_Port=stle; end
 			tListo_esc=Listo_es;
 			case(thabilita)
 			6'h0:begin Habilita=9'b000000001;end
