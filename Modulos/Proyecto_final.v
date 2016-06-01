@@ -6,7 +6,7 @@ module Proyecto_final(
     input aumenta,disminuye,siguiente,anterior,Listo_es,formato,cambia,quita,
 	 input [7:0] anole,mesle,diale,horale,minle,segle,htle,mtle,stle,
     output [7:0] ano,mes,dia,hora,min,seg,ht,mt,st,
-	 output Listo_ht,
+	 output Listo_ht,modifica_timer,
 	 output [8:0] Habilita
     );
 
@@ -111,7 +111,8 @@ Resgistro_a_desde_RTC Registro_a_desde_RTC (
     .stle(stle), 
     .Listo_ht(Listo_ht), 
     .Listo_esc(Listo_esc),
-	 .Habilita(Habilita)
+	 .Habilita(Habilita), 
+	 .modifica_timer(modifica_timer)
     );	 
 
 endmodule

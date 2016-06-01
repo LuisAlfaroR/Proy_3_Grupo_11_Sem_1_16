@@ -7,7 +7,7 @@ module Resgistro_a_desde_RTC(
 	output reg [7:0] In_Port,ano,mes,dia,horas,minutos,segundos,ht,mt,st,
 	output reg [8:0] Habilita,
 	input [7:0] anole,mesle,diale,horasle,minutosle,segundosle,htle,mtle,stle,
-	output reg Listo_ht, Listo_esc
+	output reg Listo_ht, Listo_esc,modifica_timer
     );
 
 reg [7:0] tano,tmes,tdia,thoras,tminutos,tsegundos,tht,tmt,tst,thabilita;
@@ -16,7 +16,7 @@ reg tListo_ht,tListo_esc;
 always@*begin
 		if(reset)begin
 			In_Port=0;ano=0;mes=0;dia=0;horas=0;minutos=0;segundos=0;ht=0;mt=0;st=0;Listo_ht=0;Listo_esc=0;
-			Habilita=0;
+			Habilita=0;modifica_timer=0;
 			tano=0;tmes=0;tdia=0;thoras=0;tminutos=0;tsegundos=0;tht=0;tmt=0;tst=0;tListo_ht=0;
 			tListo_esc=0;thabilita=0;
 			end
@@ -48,6 +48,9 @@ always@*begin
 			if(Port_ID==8'h13)begin In_Port=htle; end
 			if(Port_ID==8'h14)begin In_Port=mtle; end
 			if(Port_ID==8'h15)begin In_Port=stle; end
+			if(Port_ID==8'h16 && write)begin 
+				if(Out_Port==8'h9)begin modifica_timer=1;end
+					else begin modifica_timer=0;end end
 			tListo_esc=Listo_es;
 			case(thabilita)
 			6'h0:begin Habilita=9'b000000001;end
