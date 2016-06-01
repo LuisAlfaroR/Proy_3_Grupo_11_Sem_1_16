@@ -10,7 +10,7 @@ module Proyecto_3(
 	output hsync, vsync, clk_out1
     );
 
-wire Listo_es,Listo_ht;
+wire Listo_es,Listo_ht,modifica;
 wire [7:0] anole,mesle,diale,horale,minle,segle,htle,mtle,stle;
 wire [7:0] ano,mes,dia,hora,min,seg,ht,mt,st;
 wire [8:0] Habilita;
@@ -23,6 +23,9 @@ Proyecto_final Inclusion_picoblaze (
     .siguiente(siguiente), 
     .anterior(anterior), 
     .Listo_es(Listo_es), 
+	 .formato(forma), 
+	 .cambia(modifica_timer), 
+	 .quita(Quita_IRQ),
     .anole(anole), 
     .mesle(mesle), 
     .diale(diale), 
@@ -42,7 +45,8 @@ Proyecto_final Inclusion_picoblaze (
     .mt(mt), 
     .st(st), 
     .Listo_ht(Listo_ht), 
-    .Habilita(Habilita)
+    .Habilita(Habilita), 
+	 .modifica_timer(modifica)
     );
 	 
 Proyecto_2 Programacion_anterior (
@@ -62,7 +66,7 @@ Proyecto_2 Programacion_anterior (
     .st(st), 
     .forma(forma), 
     .Quita_IRQ(Quita_IRQ), 
-    .modifica_timer(modifica_timer), 
+    .modifica_timer(modifica), 
     .IRQ(IRQ), 
     .AD(AD), 
     .CS(CS), 

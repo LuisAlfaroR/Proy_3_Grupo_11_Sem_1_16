@@ -10,7 +10,7 @@ module Registro_Teclado(
     );
 
 always@*begin
-	if(reset)begin In_Port=0; interrupcion=0; end
+	if(reset)begin In_Port=0; end
 	//else if(cambia)begin interrupcion=1; end
 	else begin
 	In_Port=8'hff;

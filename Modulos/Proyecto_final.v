@@ -27,7 +27,7 @@ Registro_Teclado Teclado (
 	 .cambia(cambia),
 	 .quita(quita),
     .Port_ID(port_id), 
-    .In_Port(in_port_tec), 
+    .In_Port(in_port_tec)
 	 //.interrupcion(interrupcion)
     );	
 
