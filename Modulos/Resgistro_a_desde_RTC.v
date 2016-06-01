@@ -1,7 +1,8 @@
 `timescale 1ns / 1ps
 
 module Resgistro_a_desde_RTC(
-	input clk, reset, write, Listo_es,
+	//input clk, 
+	input reset, write, Listo_es,
 	input [7:0] Out_Port, Port_ID,
 	output reg [7:0] In_Port,ano,mes,dia,horas,minutos,segundos,ht,mt,st,
 	output reg [8:0] Habilita,
