@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 
 module Proyecto_3(
-	input clk,reset,aumenta,disminuye,siguiente,anterior,
-	input forma,Quita_IRQ,modifica_timer, //switch
+	input clk,reset,
+	input ps2d,ps2c,							  //Entradas del teclado
 	input IRQ,									  //Señal de IRQ
 	output AD,CS,RD,RW,						  //Salidas control a RTC
 	inout [7:0] Dato_sal,					  //Salida y entrada de datos del RTC
@@ -10,14 +10,29 @@ module Proyecto_3(
 	output hsync, vsync, clk_out1
     );
 
-wire Listo_es,Listo_ht,modifica;
+wire Listo_es,Listo_ht,modifica,aumenta,disminuye,siguiente,anterior,forma,Quita_IRQ,modifica_timer,Rst;
 wire [7:0] anole,mesle,diale,horale,minle,segle,htle,mtle,stle;
 wire [7:0] ano,mes,dia,hora,min,seg,ht,mt,st;
 wire [8:0] Habilita;
 
-Proyecto_final Inclusion_picoblaze (
+Modulo_teclado Entrada_Teclado (
     .clk(clk), 
     .reset(reset), 
+    .ps2d(ps2d), 
+    .ps2c(ps2c), 
+    .Aumenta(aumenta), 
+    .Disminuye(disminuye), 
+    .Siguiente(siguiente), 
+    .Anterior(anterior), 
+    .Reset(Rst), 
+    .Formato(forma), 
+    .QuitarAlarma(Quitar_IRQ), 
+    .CambiarHora(modifica_timer)
+    );
+
+Proyecto_final Inclusion_picoblaze (
+    .clk(clk), 
+    .reset(Rst), 
     .aumenta(aumenta), 
     .disminuye(disminuye), 
     .siguiente(siguiente), 
@@ -51,7 +66,7 @@ Proyecto_final Inclusion_picoblaze (
 	 
 Proyecto_2 Programacion_anterior (
     .clk(clk), 
-    .reset(reset),
+    .reset(Rst),
 	 .Listo_ht(Listo_ht),
     .Habilita(Habilita),
 	 .Listo_es(Listo_es),

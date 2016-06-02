@@ -12,7 +12,7 @@ module Proyecto_final(
 
 wire [11:0] address;
 wire [17:0] instruction;
-wire [7:0] port_id , in_port , out_port,in_port_tec,in_port_rtc;
+wire [7:0] port_id , in_port , out_port,in_port_tec,in_port_rtc,in_port_rtc_sal,out_port_sal;
 wire write_strobe,bram_enable;//,interrupcion ;
 
 
@@ -34,23 +34,9 @@ Registro_Teclado Teclado (
 MUX_In_Port MUX_del_In_Port (
     .Port_ID(port_id), 
     .In_Port_tec(in_port_tec), 
-    .In_Port_RTC(in_port_rtc), 
+    .In_Port_RTC(in_port_rtc_sal), 
     .In_Port_sal(in_port)
     );
-
-/*kcpsm3 PicoBlaze (
-    .address(address), 
-    .instruction(instruction), 
-    .port_id(port_id), 
-    .write_strobe(write_strobe), 
-    .out_port(out_port), 
-    .read_strobe(read_strobe), 
-    .in_port(in_port), 
-    .interrupt(0), 
-    .interrupt_ack(interrupt_ack), 
-    .reset(reset), 
-    .clk(clk)
-    );*/
 	 
 kcpsm6 Picoblaze (
     .address(address), 
@@ -69,7 +55,7 @@ kcpsm6 Picoblaze (
     .clk(clk)
     );
 	
-programa ROM (
+programa1 ROM (
     .address(address), 
     .instruction(instruction), 
     .enable(bram_enable), 
@@ -84,11 +70,11 @@ programa ROM (
     );*/
 
 Resgistro_a_desde_RTC Registro_a_desde_RTC (
-    //.clk(clk), 
+    .clk(clk), 
     .reset(reset), 
     .write(write_strobe), 
     .Listo_es(Listo_es), 
-    .Out_Port(out_port), 
+    .Out_Port(out_port_sal), 
     .Port_ID(port_id), 
     .In_Port(in_port_rtc), 
     .ano(ano), 
@@ -110,9 +96,15 @@ Resgistro_a_desde_RTC Registro_a_desde_RTC (
     .mtle(mtle), 
     .stle(stle), 
     .Listo_ht(Listo_ht), 
-    .Listo_esc(Listo_esc),
 	 .Habilita(Habilita), 
 	 .modifica_timer(modifica_timer)
     );	 
+
+Deco_salida_Pico instance_name (
+    .Out_Port(out_port), 
+    .In_Port(in_port_rtc), 
+    .Out_Port_sal(out_port_sal), 
+    .In_Port_sal(in_port_rtc_sal)
+    );
 
 endmodule
