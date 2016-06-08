@@ -31,7 +31,7 @@ always@*begin
 					 if(anterior)begin In_Port=8'h7;end
 					 else begin In_Port=8'd0; end
 				  end
-		8'h08 : begin
+		8'h17 : begin
 					 if(cambia)begin In_Port=8'h9;end
 					 else begin In_Port=8'd0; end
 				  end

@@ -1,23 +1,23 @@
 `timescale 1ns / 1ps
 
 module RTC(
-   input clk,down_num,up_num,up_par,down_par,rst,forma,Quita_IRQ,modifica_timer,
+   input clk,rst,forma,Quita_IRQ,modifica_timer,Listo_ht,quita,
+	input wire [7:0] a,me,d,h,m,s,ht,mt,st,
 	output AD,CS,RD,RW,
 	inout [7:0] Dato_sal,
 	//Comunicacion con VGA
 	input [3:0] seleccion_dato,
-	output am,forma_hora,clk_out1,
-	output [7:0] dato3,
-	output [8:0] Habilita
+	output am,forma_hora,clk_out1,Listo_es,activa,
+	output wire [7:0] dato3,a_l,me_l,d_l,h_l,m_l,s_l,ht_l,mt_l,st_l
     );
 
 assign forma_hora=forma;
 
-wire rst_lee,down_es,down_lec,EN_es,EN_lec,RTC,LD_par,EN_par,rst_par,rst_Listo;
+wire rst_lee,down_es,down_lec,EN_es,EN_lec/*,RTC,LD_par,EN_par,rst_par,rst_Listo*/;
 wire rst_esc,up_esc,LD_esc_1,LD_esc_2,Es_Le,Leer,up_lee,rst_cuent_IRQ,EN_IRQ,rst_recolecta;
 wire clk_sel,cuenta_fin;
-wire [7:0] a,me,d,h,m,s,ht,mt,st;
-wire [7:0] a_l,me_l,d_l,h_l,m_l,s_l,ht_l,mt_l,st_l;
+//wire [7:0] a,me,d,h,m,s,ht,mt,st;
+//wire [7:0] a_l,me_l,d_l,h_l,m_l,s_l,ht_l,mt_l,st_l;
 wire ADe,CSe,RDe,WRe;
 wire ADl,CSl,RDl,WRl;
 wire [7:0] de_mem_esc_a_RTC,de_mem_lec_a_RTC;
@@ -47,11 +47,11 @@ Control_RTC Control_general_del_RTC (
     .down_lec(down_lec), //Siempre bajo, contador de lectura cuente hacia abajo
     .EN_es(EN_es), //Siempre alto, permite al contador de escritura avanzar
     .EN_lec(EN_lec), //Siempre alto, permite al contador de lectura avanzar
-    .RTC(RTC), //Mostrar en la VGA los parametros programados o los enviados por el RTC
-    .LD_par(LD_par), //Posiciona el contador de parametros en 6 para empezar a cambiar el timer
-    .EN_par(EN_par), //Permite al contador de seleccionar el parametro avanzar
-    .rst_par(rst_par), //Pone en 0 los parametros seleccionados por el usuario
-    .rst_Listo(rst_Listo), //Deshabilita el aviso de que se agregó las horas del timer
+    //.RTC(RTC), //Mostrar en la VGA los parametros programados o los enviados por el RTC
+    //.LD_par(LD_par), //Posiciona el contador de parametros en 6 para empezar a cambiar el timer
+    //.EN_par(EN_par), //Permite al contador de seleccionar el parametro avanzar
+    //.rst_par(rst_par), //Pone en 0 los parametros seleccionados por el usuario
+    //.rst_Listo(rst_Listo), //Deshabilita el aviso de que se agregó las horas del timer
     .rst_esc(rst_esc), //Reinicia el contador de la memoria de escritura de parametros
     .up_esc(up_esc), //Permite al contador de memoria de escritura avanzar
     .LD_esc_1(LD_esc_1), //Indica a la memoria donde empezar a enviar al RTC
@@ -168,7 +168,9 @@ Parametros_desde_RTC Recoleccion_parametros_desde_RTC (
     .h(h_l), 
     .d(d_l), 
     .me(me_l), 
-    .a(a_l)
+    .a(a_l),
+	 .quita(quita), 
+	 .activa(activa)
     );
 
 Contador_IRQ Contador_IRQ (
@@ -180,15 +182,15 @@ Contador_IRQ Contador_IRQ (
 
 MUX_Seleccion_dato Seleccion_de_parametro_a_VGA (
     .seleccion_dato(seleccion_dato), 
-    .a_vga(a_vga), 
-    .me_vga(me_vga), 
-    .d_vga(d_vga), 
-    .h_vga(h_vga), 
-    .m_vga(m_vga), 
-    .s_vga(s_vga), 
-    .ht_vga(ht_vga), 
-    .mt_vga(mt_vga), 
-    .st_vga(st_vga), 
+    .a_vga(a), 
+    .me_vga(me), 
+    .d_vga(d), 
+    .h_vga(h), 
+    .m_vga(m), 
+    .s_vga(s), 
+    .ht_vga(ht), 
+    .mt_vga(mt), 
+    .st_vga(st), 
     .dato(dato3),
 	 .am(am)
     );

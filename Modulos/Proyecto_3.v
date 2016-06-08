@@ -7,7 +7,7 @@ module Proyecto_3(
 	output AD,CS,RD,RW,						  //Salidas control a RTC
 	inout [7:0] Dato_sal,					  //Salida y entrada de datos del RTC
 	output [2:0] rgb, 						  //Salidas a VGA
-	output hsync, vsync, clk_out1
+	output hsync, vsync, clk_out1, alarma
     );
 
 wire Listo_es,Listo_ht,modifica,aumenta,disminuye,siguiente,anterior,forma,Quita_IRQ,modifica_timer,Rst;
@@ -26,7 +26,7 @@ Modulo_teclado Entrada_Teclado (
     .Anterior(anterior), 
     .Reset(Rst), 
     .Formato(forma), 
-    .QuitarAlarma(Quitar_IRQ), 
+    .QuitarAlarma(Quita_IRQ), 
     .CambiarHora(modifica_timer)
     );
 
@@ -80,7 +80,8 @@ Proyecto_2 Programacion_anterior (
     .mt(mt), 
     .st(st), 
     .forma(forma), 
-    .Quita_IRQ(Quita_IRQ), 
+	 .quita(Quita_IRQ),
+    .Quita_IRQ(1'b0), 
     .modifica_timer(modifica), 
     .IRQ(IRQ), 
     .AD(AD), 
@@ -100,7 +101,8 @@ Proyecto_2 Programacion_anterior (
     .s_l(segle), 
     .ht_l(htle), 
     .mt_l(mtle), 
-    .st_l(stle)
+    .st_l(stle),
+	 .alarma(alarma)
     );
 
 

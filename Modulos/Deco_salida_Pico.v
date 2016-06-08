@@ -67,6 +67,7 @@ always@* begin
 		8'h57: begin In_Port_sal=8'h39; end
 		8'h58: begin In_Port_sal=8'h3a; end
 		8'h59: begin In_Port_sal=8'h3b; end
+		default:begin In_Port_sal=0; end
 	endcase
 		case(Out_Port)
 		8'h00: begin Out_Port_sal=8'h00; end
@@ -129,6 +130,7 @@ always@* begin
 		8'h39: begin Out_Port_sal=8'h57; end
 		8'h3a: begin Out_Port_sal=8'h58; end
 		8'h3b: begin Out_Port_sal=8'h59; end
+		default:begin Out_Port_sal=0; end
 	endcase
 end
 endmodule

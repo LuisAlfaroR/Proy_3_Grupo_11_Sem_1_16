@@ -21,7 +21,7 @@
 module deco_direcciones(
     input [7:0] dato,
     input selector,
-    output reg [10:0] direccion = 11'h300
+    output reg [10:0] direccion = 11'h420
     );
 	 
 	 wire [3:0] nibble;
@@ -29,19 +29,19 @@ module deco_direcciones(
 	 assign nibble = selector ? dato[7:4] : dato[3:0];
 	 
 	 always@* begin
-		direccion = 11'h300;
+		direccion = 11'h420;
 		
 		case(nibble)
-			4'd0: direccion = 11'h300;
-			4'd1: direccion = 11'h310;
-			4'd2: direccion = 11'h320;
-			4'd3: direccion = 11'h330;
-			4'd4: direccion = 11'h340;
-			4'd5: direccion = 11'h350;
-			4'd6: direccion = 11'h360;
-			4'd7: direccion = 11'h370;
-			4'd8: direccion = 11'h380;
-			4'd9: direccion = 11'h390;
+			4'd0: direccion = 11'h420;
+			4'd1: direccion = 11'h450;
+			4'd2: direccion = 11'h480;
+			4'd3: direccion = 11'h4b0;
+			4'd4: direccion = 11'h4e0;
+			4'd5: direccion = 11'h510;
+			4'd6: direccion = 11'h540;
+			4'd7: direccion = 11'h570;
+			4'd8: direccion = 11'h5a0;
+			4'd9: direccion = 11'h5d0;
 			default: direccion = 11'd0;
 		endcase
 		

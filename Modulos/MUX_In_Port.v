@@ -7,7 +7,7 @@ module MUX_In_Port(
 
 always@* begin
 	In_Port_sal=0;
-	if(Port_ID<8'hb)begin In_Port_sal=In_Port_tec; end
+	if((Port_ID<8'hb)||(Port_ID==8'h17))begin In_Port_sal=In_Port_tec; end
 	else begin In_Port_sal=In_Port_RTC; end
 	end
 

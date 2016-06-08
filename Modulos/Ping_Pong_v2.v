@@ -29,7 +29,8 @@ module Ping_Pong_v2
 		output wire hsync, vsync,
 		output wire [3:0] selector_dato,
 		output wire [2:0] rgb,
-		input wire [8:0] Habilita
+		input wire [8:0] Habilita,
+		output wire alarma
     );
 	 
 //pixel_x, pixel_y for VGA
@@ -97,7 +98,7 @@ always @(posedge DivClk)
 	if(pixel_tick)
 		rgb_reg <= rgb_next;
 assign rgb = rgb_reg;
-
+assign alarma=ringout;
 //assign rgb = rgb_next;
 
 endmodule
